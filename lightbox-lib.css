@@ -1,0 +1,129 @@
+/* ---
+| MISC, GENERAL
+--- */
+
+#lightbox { opacity: .8; width: 100%; height: 100%; background: #666; position: fixed; left: 0; top: 0; z-index: 1000000; display: none; }
+.lblib-ce { background: #fff; padding: 1.8rem; top: 5rem; position: fixed; z-index: 1000001; opacity: 0; margin-top: 2rem; }
+.lblib-ce.anim { transition: .35s; }
+.lightbox-showing .lblib-ce { opacity: 1; margin-top: 0; }
+.lblib-ce, .lblib-ce * { box-sizing: border-box; }
+#top-close-btn {
+	background: white;
+	position: absolute;
+	left: calc(50% - 15px);
+	top: -15px;
+	border-radius: 50%;
+	font-weight: bold;
+	color: #555;
+	padding: .6em .35em;
+	z-index: 100002;
+	font-size: 30px;
+	line-height: 0;
+	cursor: pointer;
+	font-family: serif;
+	text-decoration: none !important;
+}
+.lblib-ce #top-close-btn:hover { transform: scale(1.1); }
+
+/* ---
+| MODALS
+--- */
+
+#lblib-modal { width: 500px; max-width: 100%; padding: 1.4rem; }
+#lblib-modal:not(.noTitle) { padding-top: 0; }
+#lblib-modal *:not(#top-close-btn) { font-size: 1rem; font-family: verdana; }
+.lblib-ce h4 {
+	font-size: 1.4rem;
+	background: linear-gradient(to right, #b9e4f4 0%, #2fbeeb 50%, #c3e6f5 100%);
+	color: #444;
+	text-transform: uppercase;
+	margin: 0 0 1.6rem 0;
+	width: calc(100% + (1.4rem * 2));
+	position: relative;
+	left: -1.4rem;
+	padding: 1rem 1.8rem;
+}
+#lblib-modal > *:not(h4) + p:first-of-type, #lblib-modal > p:first-child { font-size: 1.4rem; margin-top: 0; }
+#lblib-modal p:empty { display: none; }
+#lblib-prompt { width: 100%; display: block; padding: .4rem; border: solid 1px #ccc; background: #f8f8f8; }
+#lblib-modal .cl { margin-top: 1.5rem; }
+.lbd-button {
+	padding: .5rem;
+	border-radius: 2px;
+	background: #3Ea990;
+	color: white;
+	border: none;
+	font-size: .95rem !important;
+	cursor: pointer;
+	transition: background .35s;
+}
+.lbd-button:hover { background: #4EB9A0; }
+
+/* ---
+| LB LOADING
+--- */
+
+#lb-loading { padding: 1.4rem; background: white; width: 380px; border-radius: 6px; box-shadow: none; transition: .35s; transform: translateY(-50%); top: 50% !important; text-align: center; display: none; overflow: hidden; }
+#lb-loading.lblib-ce { margin: 0; }
+#lb-loading p { margin: 0; }
+
+/* message */
+#lb-loading p + p { margin-top: .5rem; transition: opacity .5s; }
+#lb-loading:not(.with-msg) p + p { display: none; }
+
+/* progresss bar */
+#lb-loading .bar { background: #d2d2d2; border-radius: .5rem; height: 1rem; position: relative; overflow: hidden; margin-top: 1rem; transition: opacity .5s; }
+#lb-loading:not(.with-progress-bar) .bar { display: none; }
+#lb-loading .bar div { background: #88b95C; position: absolute; left: 0; top: 0; height: 100%; transition: width .5s; }
+
+/* barberpole variant */
+#lb-loading.bar-type-infinite .bar div {
+	right: 0;
+	bottom: 0;
+	transition: opacity 0.3s ease;
+	background-size: 30px 30px;
+	background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) 75%, transparent 75%, transparent);
+	animation: barberpole 0.5s linear infinite;
+}
+
+@keyframes barberpole {
+	from { background-position: 0 0; }
+	to { background-position: 60px 30px; }
+}
+
+/* succeeded/failed */
+#lb-loading .succeeded, #lb-loading .failed { font-size: 4rem; color: #88b95C; transition: left .4s; position: absolute; left: -20%; top: 4%; display: block; }
+#lb-loading.succeeded .succeeded, #lb-loading.failed .failed { left: 45%; }
+#lb-loading .failed { color: #D96D7A; }
+#lb-loading.succeeded > *:not(.succeeded), #lb-loading.failed > *:not(.failed) { opacity: 0; }
+
+/* ---
+| ABSENT FILES
+--- */
+
+#lblib-afCntr.img { max-width: 50%; }
+#lblib-afCntr.doc { width: 600px; height: 600px; }
+#lblib-afCntr iframe { width: 100%; border: none; height: 100%; }
+#lblib-afCntr img { width: 100%; }
+
+/* ---
+| CAROUSEL MODE
+--- */
+
+.lblib-ce.carousel .carousel-nav {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 2rem;
+	padding: .65rem .65rem .95rem .65rem;
+	line-height: 1.2rem;
+	z-index: 1;
+	text-decoration: none !important;
+	cursor: pointer;
+	left: -1.3rem;
+	background: #3Ea990;
+	border: none;
+	color: white;
+}
+.lblib-ce.carousel .carousel-next { left: auto; right: -1.3rem; }
+.lblib-ce.carousel .carousel-nav:hover { background: #bbb; }
