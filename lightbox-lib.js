@@ -48,8 +48,10 @@ let lblib = (function() {
 			lblib.resolveModal(false) || lblib.hide();
 	});
 	bod.addEventListener('keypress', evt => {
-		if (globals.enter && evt.keyCode == 13 && !lb.matches('.noClose') && evt.target.matches('#lblib-modal input'))
+		if (globals.enter && evt.keyCode == 13 && !lb.matches('.noClose') && evt.target.matches('#lblib-modal input') && evt.target.value) {
+			lblib.lastEnterVal = evt.target.value;
 			lblib.resolveModal(true, evt.target.value);
+		}
 	});
 	bod.addEventListener('click', evt => {
 		if (globals.clickLB && evt.target === lb && !lb.matches('.noClose'))
@@ -78,12 +80,10 @@ let lblib = (function() {
 		| LIGHTBOX - all lightbox modes are routed through here, i.e. to show an element of some sort. Args:
 		|	@el (obj/str)	- a reference to an HTML element to show, or a selector string pointing to one
 		|	@params (obj)	- optional params:
-		|		- @autoDisappear (bool) - whether the lightbox should auto-close itself. The value in @defaults
-		|								  is used.
-		|		- noClose (bool)		- stipulates that the lightbox cannot be closed by automatic means (i.e.
-		|								  from trigger elements)
-		|		- carousel (bool)		- denotes the lightbox should cycle through the child elements of @el one
-		|								  by one, as a carousel
+		|		- @autoDisappear (bool) - whether the lightbox should auto-close itself. The value in @defaults is used.
+		|		- noClose (bool)		- stipulates that the lightbox cannot be closed by automatic means (i.e. from trigger elements)
+		|		- carousel (bool)		- denotes the lightbox should cycle through the child elements of @el one by one, as a carousel
+		|		- openCallback (func)	- a callback to be called once the lightbox opens. It is passed a reference to the central element.
 		--- */
 
 		lightbox(el, params = {}) {
@@ -159,6 +159,7 @@ let lblib = (function() {
 			lblib.centreElement(lb_ce);
 			document.body.classList.add('lightbox-showing');
 			lb_showing = 1;
+			params.openCallback && params.openCallback(lb_ce);
 		
 		},
 
@@ -287,7 +288,7 @@ let lblib = (function() {
 				});
 
 				//centre and show
-				lblib.lightbox(box, {autoDisappear: params.autoDisappear, noClose: params.noClose});
+				lblib.lightbox(box, params);
 
 			});
 
