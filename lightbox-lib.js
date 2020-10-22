@@ -49,7 +49,7 @@ let lblib = (function() {
 	});
 	bod.addEventListener('keypress', evt => {
 		if (globals.enter && evt.keyCode == 13 && !lb.matches('.noClose') && evt.target.matches('#lblib-modal input'))
-			lblib.resolveModal(true);
+			lblib.resolveModal(true, evt.target.value);
 	});
 	bod.addEventListener('click', evt => {
 		if (globals.clickLB && evt.target === lb && !lb.matches('.noClose'))
