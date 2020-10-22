@@ -48,9 +48,9 @@ let lblib = (function() {
 			lblib.resolveModal(false) || lblib.hide();
 	});
 	bod.addEventListener('keypress', evt => {
-		if (globals.enter && evt.keyCode == 13 && !lb.matches('.noClose') && evt.target.matches('#lblib-modal input') && evt.target.value) {
+		if (!lb.matches('.noClose') && evt.target.matches('#lblib-modal input')) {
 			lblib.lastEnterVal = evt.target.value;
-			lblib.resolveModal(true, evt.target.value);
+			globals.enter && evt.keyCode == 13 && evt.target.value && lblib.resolveModal(true, evt.target.value);
 		}
 	});
 	bod.addEventListener('click', evt => {
