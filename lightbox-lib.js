@@ -253,6 +253,8 @@ let lblib = (function() {
 
 			return new Promise(res => {
 
+				lblib.currModalPromiseRes = res;
+
 				//create and append dialog box
 				let box = document.ce('div');
 				box.setAttribute('id', 'lblib-modal')
@@ -308,9 +310,7 @@ let lblib = (function() {
 		//programmatically resolve modal
 		resolveModal(direction) {
 			if (curr_usage != 'modal') return false;
-			let cancelBtn = lb_ce.querySelector('.lbd-button.cancel');
-			!direction && cancelBtn && cancelBtn.click();
-			direction && lb_ce.querySelector('.lbd-button.ok').click();
+			lblib.currModalPromiseRes(direction);
 		},
 
 		/* ---
