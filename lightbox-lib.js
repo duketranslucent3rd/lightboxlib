@@ -245,6 +245,8 @@ let lblib = (function() {
 		|									  lightbox trigger it to close
 		|		- @cancelButton (bool/obj)	- as with @OKButton, except it does not get created if omitted, and the
 		|									  default text is 'cancel'
+		|		- @startVal (str)		- for 'enter' mode; a default value for lblib.lastEnterVal, so it has a value even if no keypress
+		|						  is ever detected on a field inside the modal
 		--- */
 
 		modal(params) {
@@ -254,6 +256,7 @@ let lblib = (function() {
 			return new Promise(res => {
 
 				lblib.currModalPromiseRes = res;
+				if (params.startEnterVal) lblib.lastEnterVal = params.startEnterVal;
 
 				//create and append dialog box
 				let box = document.ce('div');
