@@ -15,7 +15,8 @@ export default window.lblib = (function() {
 			escape: true,
 			clickLB: true,
 			topCloseBtn: true,
-			autoDisappearInterval: 1.5
+			autoDisappearInterval: 1.5,
+			loadingTitle: 'Just a sec...'
 		};
 
 	//shortcuts methods
@@ -360,10 +361,11 @@ export default window.lblib = (function() {
 				el = document.ce('aside');
 				el.id = 'lb-loading';
 				el.classList.add('lblib-ce');
-				el.innerHTML = `
+				if (globals.loadingTitle) el.innerHTML = `
 				<p>
-					<strong>Just a sec...</strong>
-				</p>
+					<strong>${globals.loadingTitle}</strong>
+				</p>`;
+				el.innerHTML += `
 				<p></p>
 				<div class=bar><div>
 				</div></div>
