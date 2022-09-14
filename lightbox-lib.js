@@ -1,12 +1,10 @@
 'use strict';
-let lblib = (function() {
+export default window.lblib = (function() {
 
 	/* ---
 	| PREP
 	--- */
 
-	if (window.lblib) return;
-	window.lblib = {};
 	let lb,
 		lb_ce,
 		curr_usage,
@@ -41,21 +39,21 @@ let lblib = (function() {
 	//listen for certain kinds of closure
 	bod.addEventListener('click', evt => {
 		if (!lb.matches('.noClose') && evt.target.matches('.lblib-ce .close, .lblib-ce button:not(.lbd-button)'))
-			lblib.resolveModal(false) || lblib.hide(evt);
+			window.lblib.resolveModal(false) || window.lblib.hide(evt);
 	});
 	document.addEventListener('keyup', evt => {
 		if (globals.escape && evt.keyCode == 27 && !lb.matches('.noClose'))
-			lblib.resolveModal(false) || lblib.hide();
+			window.lblib.resolveModal(false) || window.lblib.hide();
 	});
 	bod.addEventListener('keypress', evt => {
 		if (!lb.matches('.noClose') && evt.target.matches('#lblib-modal input')) {
-			lblib.lastEnterVal = evt.target.value+String.fromCharCode(evt.keyCode);
-			globals.enter && evt.keyCode == 13 && evt.target.value && lblib.resolveModal(true, evt.target.value);
+			window.lblib.lastEnterVal = evt.target.value+String.fromCharCode(evt.keyCode);
+			globals.enter && evt.keyCode == 13 && evt.target.value && window.lblib.resolveModal(true, evt.target.value);
 		}
 	});
 	bod.addEventListener('click', evt => {
 		if (globals.clickLB && evt.target === lb && !lb.matches('.noClose'))
-			lblib.resolveModal(false) || lblib.hide();
+			window.lblib.resolveModal(false) || window.lblib.hide();
 	});
 
 	//listen for carousel nav
@@ -91,7 +89,7 @@ let lblib = (function() {
 			if (!curr_usage) curr_usage = !params.carousel ? 'lb' : 'carousel';
 
 			//lightbox already showing? Close
-			if (lb_showing) lblib.hide();
+			if (lb_showing) window.lblib.hide();
 
 			//prep - establish element - unless was made internally, clone it
 			let carousel_mode;
@@ -101,7 +99,7 @@ let lblib = (function() {
 				el = el.cloneNode(true);
 				document.body.appendChild(el);
 			}
-			lb_ce = lblib.element = el;
+			lb_ce = window.lblib.element = el;
 
 			//classes
 			el.classList.add('lblib-ce');
@@ -127,7 +125,7 @@ let lblib = (function() {
 			//toggle show/hide lightbox...
 			if ((getCompStyle(lb, 'display') == 'none' || lb.matches('.retain-lb-on-close')) && lb_ce.id != 'lightbox') {
 				lb_ce.style.display = lb.style.display = 'block';
-				params.autoDisappear && setTimeout(() => lblib.hide(), (parseInt(params.autoDisappear) || globals.autoDisappearInterval) * 1000);
+				params.autoDisappear && setTimeout(() => window.lblib.hide(), (parseInt(params.autoDisappear) || globals.autoDisappearInterval) * 1000);
 				if (!params.noClose) {
 					if (!el.matches('#lblib-modal') && el.querySelector('#top-close-btn'))
 						el.querySelector('#top-close-btn').remove();
@@ -154,9 +152,9 @@ let lblib = (function() {
 				}
 
 			} else if (lb_ce.id == 'lightbox')
-				lblib.hide();
+				window.lblib.hide();
 
-			lblib.centreElement(lb_ce);
+			window.lblib.centreElement(lb_ce);
 			document.body.classList.add('lightbox-showing');
 			lb_showing = 1;
 			params.openCallback && params.openCallback(lb_ce);
@@ -200,7 +198,7 @@ let lblib = (function() {
 			!afCntr.parentNode && document.body.appendChild(afCntr);
 
 			//show loader until ready?
-			!params.noLoader && lblib.loading(true);			
+			!params.noLoader && window.lblib.loading(true);			
 
 			//image
 			if (contentType == 'img') {
@@ -209,7 +207,7 @@ let lblib = (function() {
 				afCntr.appendChild(img);
 				img.onload = () => {
 					afCntr.style.width = img.width+'px';
-					lblib.lightbox(afCntr, params);
+					window.lblib.lightbox(afCntr, params);
 				};
 				img.src = uri;
 
@@ -220,7 +218,7 @@ let lblib = (function() {
 				afCntr.classList.add('doc');
 				ifr.src = uri;
 				ifr.onload = () => {
-					lblib.lightbox(afCntr, params);
+					window.lblib.lightbox(afCntr, params);
 				};
 			}
 
@@ -245,7 +243,7 @@ let lblib = (function() {
 		|									  lightbox trigger it to close
 		|		- @cancelButton (bool/obj)	- as with @OKButton, except it does not get created if omitted, and the
 		|									  default text is 'cancel'
-		|		- @startVal (str)		- for 'enter' mode; a default value for lblib.lastEnterVal, so it has a value even if no keypress
+		|		- @startVal (str)		- for 'enter' mode; a default value for window.lblib.lastEnterVal, so it has a value even if no keypress
 		|						  is ever detected on a field inside the modal
 		--- */
 
@@ -255,8 +253,8 @@ let lblib = (function() {
 
 			return new Promise(res => {
 
-				lblib.currModalPromiseRes = res;
-				if (params.startEnterVal) lblib.lastEnterVal = params.startEnterVal;
+				window.lblib.currModalPromiseRes = res;
+				if (params.startEnterVal) window.lblib.lastEnterVal = params.startEnterVal;
 
 				//create and append dialog box
 				let box = document.ce('div');
@@ -285,7 +283,7 @@ let lblib = (function() {
 					but.style.float = btnType == 'OK' ? 'right' : 'left';
 					but.textContent = cfg.text || btnType;
 					but.addEventListener('click', evt => {
-						if (!cfg.noClose) lblib.hide(evt);
+						if (!cfg.noClose) window.lblib.hide(evt);
 						cfg.callback && cfg.callback(btnType, evt);
 						let response = !params.prompt ? btnType == 'OK' : box.querySelector('#lblib-prompt').value;
 						res(response);
@@ -293,7 +291,7 @@ let lblib = (function() {
 				});
 
 				//centre and show
-				lblib.lightbox(box, params);
+				window.lblib.lightbox(box, params);
 
 			});
 
@@ -301,19 +299,19 @@ let lblib = (function() {
 
 		//modal() shortcuts
 		alert(msg, noOKClose) {
-			return lblib.modal({content: msg, OKButton: {noClose: noOKClose}});
+			return window.lblib.modal({content: msg, OKButton: {noClose: noOKClose}});
 		},
 		confirm(msg, noOKClose) {
-			return lblib.modal({title: 'Confirm', content: msg, cancelButton: 1, OKButton: {noClose: noOKClose}});
+			return window.lblib.modal({title: 'Confirm', content: msg, cancelButton: 1, OKButton: {noClose: noOKClose}});
 		},
 		prompt(msg, dflt, noOKClose) {
-			return lblib.modal({content: msg, cancelButton: 1, prompt: dflt || true, OKButton: {noClose: noOKClose}});
+			return window.lblib.modal({content: msg, cancelButton: 1, prompt: dflt || true, OKButton: {noClose: noOKClose}});
 		},
 
 		//programmatically resolve modal
 		resolveModal(direction) {
 			if (curr_usage != 'modal') return false;
-			lblib.currModalPromiseRes(direction);
+			window.lblib.currModalPromiseRes(direction);
 		},
 
 		/* ---
@@ -333,7 +331,7 @@ let lblib = (function() {
 
 			lb.style.display = 'none';
 			lb.classList.remove('retain-lb-on-close');
-			lblib.onClose && lblib.onClose(lb_ce, evt, curr_usage);
+			window.lblib.onClose && window.lblib.onClose(lb_ce, evt, curr_usage);
 			document.body.classList.remove('lightbox-showing');
 
 			//remove central element
@@ -358,7 +356,7 @@ let lblib = (function() {
 			//build if first time
 			let el = document.qs('#lb-loading');
 			if (!el) {
-				lblib.hide();
+				window.lblib.hide();
 				el = document.ce('aside');
 				el.id = 'lb-loading';
 				el.classList.add('lblib-ce');
@@ -376,7 +374,7 @@ let lblib = (function() {
 			}
 
 			//launch and configure (just latter if already visible)
-			if (el.style.display != 'block') lblib.lightbox(el, {noClose: 1});
+			if (el.style.display != 'block') window.lblib.lightbox(el, {noClose: 1});
 			lb_ce.classList.remove.apply(lb_ce.classList, [...lb_ce.classList].filter(c => c != 'lblib-ce'));
 			if (progress) {
 				el.classList.add('with-progress-bar', 'bar-type-'+(progress === true ? 'infinite' : 'pct'));
@@ -388,7 +386,7 @@ let lblib = (function() {
 			}
 			if (succeeded) lb_ce.classList.add('succeeded');
 			if (failed) lb_ce.classList.add('failed');
-			if (succeeded || failed) setTimeout(() => lblib.hide(), 1000);
+			if (succeeded || failed) setTimeout(() => window.lblib.hide(), 1000);
 
 		},
 
