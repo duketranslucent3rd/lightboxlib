@@ -350,7 +350,7 @@ export default window.lblib = (function() {
 		|	@succeeded (bool)		- show that all went well
 		--- */
 
-		loading(progress, msg, succeeded, failed) {
+		loading(progress, msg = '', succeeded, failed) {
 
 			curr_usage = 'loading';
 
@@ -366,7 +366,7 @@ export default window.lblib = (function() {
 					<strong>${globals.loadingTitle}</strong>
 				</p>`;
 				el.innerHTML += `
-				<p></p>
+				<p>${msg}</p>
 				<div class=bar><div>
 				</div></div>
 				<span class="succeeded">&#10004;</span>
@@ -382,10 +382,7 @@ export default window.lblib = (function() {
 				el.classList.add('with-progress-bar', 'bar-type-'+(progress === true ? 'infinite' : 'pct'));
 				if (progress !== true) lb_ce.querySelector('.bar div').style.width = progress+'%';
 			}
-			if (msg) {
-				lb_ce.classList.add('with-msg');
-				lb_ce.querySelector('p + p').innerHTML = msg;
-			}
+			if (msg) lb_ce.classList.add('with-msg');
 			if (succeeded) lb_ce.classList.add('succeeded');
 			if (failed) lb_ce.classList.add('failed');
 			if (succeeded || failed) setTimeout(() => window.lblib.hide(), 1000);
